@@ -1,42 +1,61 @@
 # error_generator.py
+"""
+Модуль генерации случайных ошибок для демонстрации работы логгера.
+
+Файл:
+- Содержит функцию generate_error(), которая выбирает случайную ошибку
+  из списка и вызывает её.
+- Ошибки разных типов: арифметические, преобразование типов, коллекции,
+  файлы, импорт, атрибуты, индексы и деление по модулю.
+- Используется в error_loop.py для периодического создания исключений.
+"""
 
 import random
 import math
 
 
 def generate_error():
+    """
+    Генерирует случайную ошибку.
+
+    Действия:
+    1. Список errors содержит разные типы исключений, оформленных как lambda-функции.
+    2. random.choice выбирает одну из ошибок случайным образом.
+    3. Ошибка вызывается сразу, что приводит к генерации исключения.
+    """
+
     errors = [
         # Арифметика
-        lambda: 1 / 0,
-        lambda: math.sqrt(-1),
+        lambda: 1 / 0,            # Деление на ноль
+        lambda: math.sqrt(-1),     # Квадратный корень из отрицательного числа
 
         # Преобразование типов
-        lambda: int("abc"),
-        lambda: float("nan_value"),
+        lambda: int("abc"),        # Преобразование строки в int (невалидно)
+        lambda: float("nan_value"),# Преобразование строки в float (невалидно)
 
         # Коллекции
-        lambda: [][1],
-        lambda: {}["key"],
-        lambda: (1,)[2],
+        lambda: [][1],             # Индекс за пределами списка
+        lambda: {}["key"],         # Доступ к несуществующему ключу словаря
+        lambda: (1,)[2],           # Индекс за пределами кортежа
 
         # Файлы
-        lambda: open("missing_file.txt"),
-        lambda: open("/root/forbidden.txt"),
+        lambda: open("missing_file.txt"),  # Файл не найден
+        lambda: open("/root/forbidden.txt"), # Недоступный файл
 
         # Импорт
-        lambda: __import__("non_existing_module"),
+        lambda: __import__("non_existing_module"), # Попытка импортировать несуществующий модуль
 
         # Атрибуты
-        lambda: None.upper(),
-        lambda: (10).append(5),
+        lambda: None.upper(),      # Вызов метода у None
+        lambda: (10).append(5),    # Попытка вызвать append у int
 
         # Индексы строк
-        lambda: "abc"[10],
+        lambda: "abc"[10],         # Индекс за пределами строки
 
         # Деление по модулю
-        lambda: 10 % 0
+        lambda: 10 % 0             # Деление по модулю на ноль
     ]
 
+    # Выбираем случайную ошибку и вызываем её
     error = random.choice(errors)
     error()
-

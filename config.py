@@ -1,6 +1,6 @@
 # config.py
 
-BOT_TOKEN = "ВСТАВЬ СЮДА ТОКЕН"
+BOT_TOKEN = "ЗДЕСЬ ТОКЕН"
 
 LOG_FILE = "app.log"
 
